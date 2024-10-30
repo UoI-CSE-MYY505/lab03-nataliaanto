@@ -98,9 +98,45 @@ outShowRowLoop:
 # ----------------------------------------
 
 rgb888_to_rgb565:
-# ----------------------------------------
-# Write your code here.
-# You may move the "return" instruction (jalr zero, ra, 0).
-    jalr zero, ra, 0
+
+
+    addi sp, sp, -12       #apothhkeysh twn s0, s1, s2 sthn stoiva
+    sw s0, 0(sp)
+    sw s1, 4(sp)
+    sw s2, 8(sp)
+
+    mv t0, a0              # dieuthinsi rgb888
+    mv t1, a3              # deuthinsi rgb565
+    mv s0, a1              # platos
+    mv s1, a2              # ypsos
+    mul t2, s0, s1         # sinolikapixels
+
+loop:
+    beqz t2, end           # an den yparoyn pixels
+
+    lbu t3, 0(t0)          # kokkino
+    lbu t4, 2(t0)          # prasino
+    lbu t5, 1(t0)          # mple
+    
+
+
+    srl t3, t3, 4          
+    sll t3, t3, 11         # topothetisi kokkinou
+
+    srl t4, t4, 3          
+    sll t4, t4, 5          # topothetisi prasinou
+
+    srl t5, t5, 3          # mple
+
+    or t6, t4, t5          # sindiasmos mple kai prasinoy
+    or t6, t6, t3          # teliko rgb565
+    
+    sh t6, 0(t1)           # apothikeusi
+
+    addi t0, t0, 4         # metakinisi sth mnhnh eisodoy
+    addi t1, t1, 2         # metakinisi sth mnhnh eksodoy
+    addi t2, t2, -1        # meiwsh metrhth
+    
+    j loop                 # epanalhpsh
 
 
